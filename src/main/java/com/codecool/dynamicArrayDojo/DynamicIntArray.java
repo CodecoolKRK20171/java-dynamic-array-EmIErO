@@ -14,8 +14,15 @@ public class DynamicIntArray {
     }
 
     public DynamicIntArray(int initialCapacity) {
-        this.size = 0;
-        this.data = new int[initialCapacity];
+        if (initialCapacity <= 0) {
+            throw new IllegalArgumentException("An array cannot have size equal to: " + initialCapacity);
+        }
+        else if (initialCapacity < 20) {
+            DynamicIntArray();
+        } else {
+            this.size = 0;
+            this.data = new int[initialCapacity];
+        }
     }
 
     public boolean add(int element) {
