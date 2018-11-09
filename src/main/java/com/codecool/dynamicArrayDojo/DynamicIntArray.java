@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class DynamicIntArray {
 
     private int size;
-    private int[] data;
+    public int[] data;
 
     public DynamicIntArray() {
         this.size = 0;
@@ -16,9 +16,6 @@ public class DynamicIntArray {
     public DynamicIntArray(int initialCapacity) {
         if (initialCapacity <= 0) {
             throw new IllegalArgumentException("An array cannot have size equal to: " + initialCapacity);
-        }
-        else if (initialCapacity < 20) {
-            DynamicIntArray();
         } else {
             this.size = 0;
             this.data = new int[initialCapacity];
@@ -31,6 +28,52 @@ public class DynamicIntArray {
         return true;
     }
 
+    public void clear() {
+        this.data = new int[data.length];
+        this.size = 0;
+    }
+    
+    public int size() {
+        return this.size;
+    }
+
+    public void remove(int number) {
+
+        int numberIndex = -1;
+
+        for (int i = 0; i < this.size; i++) {
+            if (this.data[i] == number) {
+                numberIndex = i;
+                break;
+            }
+        }
+
+        if (numberIndex < 0) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+
+        int[] newData = new int[this.size - 1];
+        for (int j = 0; j < numberIndex; j ++) {
+            newData[j] = this.data[j];
+        }
+
+        for (int j = numberIndex; j < this.size - 1; j++) {
+            newData[j] = this.data[j + 1];
+        }
+
+        this.size -= 1;
+        this.data = newData;
+    }
+
+    public void insert(int index, int number) {}
+
+    public String toString() {
+        String arr = "";
+        for (int i = 0; i < this.size; i++) {
+            arr = arr.concat((" " + data[i]));
+        }
+        return arr;
+    }
     private void checkCapacity() {
         if ((size + 1) < data.length) {
             int[] newData = Arrays.copyOf(data, data.length * 3 / 2);
