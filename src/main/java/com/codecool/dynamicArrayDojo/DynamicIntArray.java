@@ -32,7 +32,7 @@ public class DynamicIntArray {
         this.data = new int[data.length];
         this.size = 0;
     }
-    
+
     public int size() {
         return this.size;
     }
@@ -61,11 +61,32 @@ public class DynamicIntArray {
             newData[j] = this.data[j + 1];
         }
 
-        this.size -= 1;
+        this.size--;
         this.data = newData;
     }
 
-    public void insert(int index, int number) {}
+    public void insert(int index, int number) {
+
+        if(index >= this.data.length) {
+            checkCapacity();
+            this.data[this.size] = number;
+            this.size++;
+        } else {
+            int[] newData = new int[this.size + 1];
+            for (int j = 0; j < index; j++) {
+                newData[j] = this.data[j];
+            }
+
+            newData[index] = number;
+
+            for (int j = index +1; j < newData.length; j++) {
+                newData[j] = this.data[j - 1];
+            }
+
+            this.size++;
+            this.data = newData;
+        }
+    }
 
     public String toString() {
         String arr = "";
@@ -75,8 +96,10 @@ public class DynamicIntArray {
         return arr;
     }
     private void checkCapacity() {
-        if ((size + 1) < data.length) {
-            int[] newData = Arrays.copyOf(data, data.length * 3 / 2);
+        if ((size + 1) >= data.length) {
+            int[] newData = Arrays.copyOf(data, data.length + 1);
+
+            this.data = newData;
         }
     }
 
